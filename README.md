@@ -1,4 +1,11 @@
-# fauxmo
+# fauxmo with cec
+
+This is a fork of [fauxmo](https://github.com/makermusings/fauxmo), which can be used to switch a television or screen off via the HDMI cable using CEC.
+
+It requires a CEC-capable HDMI port (such as that on a Raspberry Pi), and the `cec-client` utility (available via `cec-utils` on Raspbian).
+
+## fauxmo
+
 **Emulated Belkin WeMo devices that work with the Amazon Echo**
 
 Visit [this Maker Musings article](http://www.makermusings.com/2015/07/13/amazon-echo-and-home-automation/) to learn more about using this code to integrate

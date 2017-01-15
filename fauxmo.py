@@ -35,6 +35,7 @@ import sys
 import time
 import urllib
 import uuid
+import subprocess
 
 
 
@@ -359,18 +360,20 @@ class upnp_broadcast_responder(object):
 # This example class takes two full URLs that should be requested when an on
 # and off command are invoked respectively. It ignores any return data.
 
-class rest_api_handler(object):
-    def __init__(self, on_cmd, off_cmd):
-        self.on_cmd = on_cmd
-        self.off_cmd = off_cmd
-
+class cec_handler:
     def on(self):
-        r = requests.get(self.on_cmd)
-        return r.status_code == 200
-
+        proc = subprocess.Popen(['cec-client','-s'],
+                                stdout = subprocess.PIPE,
+                                stdin  = subprocess.PIPE)
+        (out,err) = proc.communicate("on 0")
+        return True
+    
     def off(self):
-        r = requests.get(self.off_cmd)
-        return r.status_code == 200
+        proc = subprocess.Popen(['cec-client','-s'],
+                                stdout = subprocess.PIPE,
+                                stdin  = subprocess.PIPE)
+        (out,err) = proc.communicate("standby 0")
+        return True
 
 
 # Each entry is a list with the following elements:
@@ -384,8 +387,7 @@ class rest_api_handler(object):
 # list will be used.
 
 FAUXMOS = [
-    ['office lights', rest_api_handler('http://192.168.5.4/ha-api?cmd=on&a=office', 'http://192.168.5.4/ha-api?cmd=off&a=office')],
-    ['kitchen lights', rest_api_handler('http://192.168.5.4/ha-api?cmd=on&a=kitchen', 'http://192.168.5.4/ha-api?cmd=off&a=kitchen')],
+    ['television', cec_handler()],
 ]
 
 
